@@ -1,0 +1,4 @@
+﻿@startuml
+entity01 }o--o{ entity02
+
+@enduml

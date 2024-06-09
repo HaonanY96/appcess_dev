@@ -1,0 +1,26 @@
+﻿@startuml
+component "UI Layer" {
+  [Main Window]
+  [AppSet Window]
+  [Settings Window]
+  [About Window]
+  [NewSet Window]
+  [AddTo Window]
+  [Edit Window]
+
+}
+
+component "Application Layer" {
+  [AppManager]
+  [ShortcutHandler]
+}
+
+component "Data Layer" {
+  [DataManager]
+}
+
+[Main Window] --> [AppManager]
+[Settings Window] --> [AppManager]
+[AppManager] --> [ShortcutHandler]
+[AppManager] --> [DataManager]
+@enduml

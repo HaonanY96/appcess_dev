@@ -1,0 +1,96 @@
+﻿@startuml
+class App {
+	+ Integer AppId
+	+ String Name
+	+ AppType Type
+	+ String AppPath
+	+ String FilePath
+	+ Byte[] IconData
+	+ float CpuUsage
+	+ Integer MemoryUsage
+	+ Integer ThreadCount
+	+ Integer DiskUsage
+	+ Integer RunCount
+}
+
+
+class AppBroker
+
+class IconExtractor {
+	byte[] ExtractIcon(String path)
+}
+
+class AppSet {
+	+ Integer AppSetId
+	+ String AppSetName
+	+ List<AppSetApp> AppSetApps
+}
+
+class AppSetBroker
+
+class AppSetApp {
+	+ Integer AppSetId
+	+ Integer AppId
+	+ Integer Order
+	+ App App
+}
+
+class SystemResources {
+	+ Float CpuAvailable
+	+ Integer MemoryAvailable
+	+ Integer DiskAvailable
+	+ Integer ThreadAvailable
+}
+
+class abstract BaseSettings {
+	abstract void LoadSettings()
+	abstract void SaveSettings()
+}
+class GeneralSettings
+class InterfaceSettings
+class HotkeySettings
+class ImportExportSettings
+class UpdateSettings
+class Settings
+
+class SettingsBroker
+
+IShortcutHandler <|-- ShortcutHandler
+
+class ShortcutHandler {
+	void CreateBatchFile(string batPath, List<string> appPaths)
+	
+}
+
+note right of ShortcutHandler : This class can generate, open and delete .bat files and shortcuts
+
+class ShortcutBroker
+
+class Hotkey {
+	+ Integer HotkeyId
+	+ String KeyCombination
+	+ Integer AppSetId
+	+ AppSet AppSet
+	void RegisterHotkey()
+}
+
+class HotkeyBroker {
+	+ void SaveHotkey
+	+ void LoadHotkey
+}
+
+IDBConnect <|-- DBConnect
+
+class DBConnect {
+	+ String ConnectionString
+}
+
+interface IDataManager {
+
+}
+
+class DataManager {
+	+ void ImportData()
+	+ void ExportData()
+}
+@enduml
