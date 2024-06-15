@@ -99,7 +99,92 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Models\App.cs" />
+    <Compile Include="Models\AppSet.cs" />
+    <Compile Include="Services\LocalDBService.cs" />
+    <Compile Include="ViewModels\AppSetPropertyViewModel.cs" />
+    <Compile Include="ViewModels\AppSetViewModel.cs" />
+    <Compile Include="ViewModels\HomeAddToViewModel.cs" />
+    <Compile Include="ViewModels\HomePageViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\SettingGeneralViewModel.cs" />
+    <Compile Include="ViewModels\SettingHotkeyViewModel.cs" />
+    <Compile Include="ViewModels\SettingImportExportViewModel.cs" />
+    <Compile Include="ViewModels\SettingInterfaceViewModel.cs" />
+    <Compile Include="ViewModels\SettingUpdateViewModel.cs" />
+    <Compile Include="ViewModels\SettingViewModel.cs" />
+    <Compile Include="Views\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AppSetDeleteConfirmDialog.xaml.cs">
+      <DependentUpon>AppSetDeleteConfirmDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HomeAddToWindow.xaml.cs">
+      <DependentUpon>HomeAddToWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AppSetPropertyWindow.xaml.cs">
+      <DependentUpon>AppSetPropertyWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HomeNewSetConfirmDialog.xaml.cs">
+      <DependentUpon>HomeNewSetConfirmDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HomeNewSetDialog.xaml.cs">
+      <DependentUpon>HomeNewSetDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingGeneralPage.xaml.cs">
+      <DependentUpon>SettingGeneralPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingHotkeyPage.xaml.cs">
+      <DependentUpon>SettingHotkeyPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingImportExportPage.xaml.cs">
+      <DependentUpon>SettingImportExportPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingInterfacePage.xaml.cs">
+      <DependentUpon>SettingInterfacePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingUpdatePage.xaml.cs">
+      <DependentUpon>SettingUpdatePage.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AppSetDeleteConfirmDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HomeAddToWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AppSetPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AppSetPropertyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HomeNewSetConfirmDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HomeNewSetDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -107,10 +192,37 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\AppSetPage.xaml.cs">
+      <DependentUpon>AppSetPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\SettingGeneralPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingHotkeyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingImportExportPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingInterfacePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingUpdatePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -138,6 +250,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="build\" />
+    <Folder Include="Resources\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
