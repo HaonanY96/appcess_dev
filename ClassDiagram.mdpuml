@@ -1,11 +1,10 @@
 ﻿@startuml
 class App {
 	+ Integer AppId
-	+ String Name
-	+ AppType Type
+	+ String AppName
 	+ String AppPath
-	+ String FilePath
 	+ Byte[] IconData
+	+ Type Type
 	+ float CpuUsage
 	+ Integer MemoryUsage
 	+ Integer ThreadCount
@@ -13,16 +12,52 @@ class App {
 	+ Integer RunCount
 }
 
+public enum Type
+{
+    App,
+    File
+}
+
+class File {
+	+ Integer FileId
+	+ String FileName
+	+ String FilePath
+	+ Byte[] Thumbnail
+	+ Integer FileOpenCount
+	+ App AssociatedApp
+}
+
+class RecentApp
+{
+	+ Integer RecentAppId
+	+ App AppInfo
+	+ DateTime LastUsedTime
+}
+
+class RecentFile
+{
+	+ Integer RecentFileId
+	+ File FileInfo
+	+ DateTime LastOpenedTime
+}
 
 class AppBroker
 
-class IconExtractor {
-	byte[] ExtractIcon(String path)
+class AppIconExtractor {
+	byte[] ExtractIcon(String appPath)
+}
+
+class FileThumbnailExtractor {
+	byte[] ExtractThumbnail(String filePath)
 }
 
 class AppSet {
 	+ Integer AppSetId
 	+ String AppSetName
+	+ String KeyCombination
+	+ Integer AppCount
+	+ Integer FileCount
+	+ Integer LaunchCount
 	+ List<AppSetApp> AppSetApps
 }
 
@@ -31,7 +66,7 @@ class AppSetBroker
 class AppSetApp {
 	+ Integer AppSetId
 	+ Integer AppId
-	+ Integer Order
+	+ Integer LaunchOrder
 	+ App App
 }
 
@@ -78,6 +113,8 @@ class HotkeyBroker {
 	+ void SaveHotkey
 	+ void LoadHotkey
 }
+
+
 
 IDBConnect <|-- DBConnect
 

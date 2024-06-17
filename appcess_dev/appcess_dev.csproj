@@ -71,6 +71,9 @@
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.118.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.8.0.6\lib\net462\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
     </Reference>
@@ -101,7 +104,7 @@
     </ApplicationDefinition>
     <Compile Include="Models\App.cs" />
     <Compile Include="Models\AppSet.cs" />
-    <Compile Include="Services\LocalDBService.cs" />
+    <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="ViewModels\AppSetPropertyViewModel.cs" />
     <Compile Include="ViewModels\AppSetViewModel.cs" />
     <Compile Include="ViewModels\HomeAddToViewModel.cs" />
@@ -253,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="build\" />
+    <Folder Include="Data\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
