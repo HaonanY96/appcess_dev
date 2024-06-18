@@ -4,7 +4,7 @@ class App {
 	+ String AppName
 	+ String AppPath
 	+ Byte[] IconData
-	+ Type Type
+	+ EntityType Type
 	+ float CpuUsage
 	+ Integer MemoryUsage
 	+ Integer ThreadCount
@@ -43,11 +43,8 @@ class RecentFile
 
 class AppBroker
 
-class AppIconExtractor {
-	byte[] ExtractIcon(String appPath)
-}
-
-class FileThumbnailExtractor {
+class IconExtractor {
+	byte[] ExtractIcon(String appPath, bool isApp)
 	byte[] ExtractThumbnail(String filePath)
 }
 
@@ -59,6 +56,7 @@ class AppSet {
 	+ Integer FileCount
 	+ Integer LaunchCount
 	+ List<AppSetApp> AppSetApps
+	void RegisterHotkey()
 }
 
 class AppSetBroker
@@ -77,16 +75,44 @@ class SystemResources {
 	+ Integer ThreadAvailable
 }
 
-class abstract BaseSettings {
+abstract class BaseSettings {
 	abstract void LoadSettings()
 	abstract void SaveSettings()
 }
-class GeneralSettings
+
+public class GeneralSettings : BaseSettings
+{
+    public bool StartAutomatically { get; set; }
+    public string Language { get; set; }
+
+    public override void LoadSettings()
+    {
+        // 假设从某个数据源加载设置，例如配置文件或数据库
+        // 示例代码：
+        StartAutomatically = true; // 仅作示例，实际应该从数据源加载
+        Language = "English"; // 仅作示例，实际应该从数据源加载
+    }
+
+    public override void SaveSettings()
+    {
+        // 假设将设置保存到某个数据源，例如配置文件或数据库
+        // 示例代码：
+        // Save StartAutomatically and Language to data source
+    }
+}
+
 class InterfaceSettings
 class HotkeySettings
 class ImportExportSettings
 class UpdateSettings
-class Settings
+
+class Settings {
+    public GeneralSettings General { get; set; }
+    public InterfaceSettings Interface { get; set; }
+    public HotkeySettings Hotkeys { get; set; }
+    public ImportExportSettings ImportExport { get; set; }
+    public UpdateSettings Update { get; set; }
+}
 
 class SettingsBroker
 
@@ -97,23 +123,47 @@ class ShortcutHandler {
 	
 }
 
-note right of ShortcutHandler : This class can generate, open and delete .bat files and shortcuts
+note: This class can generate, open and delete .bat files and shortcuts
 
-class ShortcutBroker
-
-class Hotkey {
-	+ Integer HotkeyId
-	+ String KeyCombination
-	+ Integer AppSetId
-	+ AppSet AppSet
-	void RegisterHotkey()
+class BaseBroker
+class AppBroker : BaseBroker {
+    // Specific operations for App
 }
 
-class HotkeyBroker {
-	+ void SaveHotkey
-	+ void LoadHotkey
+class AppSetBroker : BaseBroker {
+    // Specific operations for AppSet
 }
 
+class SettingsBroker : BaseBroker {
+    // Specific operations for Settings
+}
+
+class ShortcutBroker : BaseBroker {
+    // Specific operations for Shortcuts
+}
+
+class HotkeyBroker : BaseBroker {
+    public void SaveHotkey() { /* Implementation */ }
+    public void LoadHotkey() { /* Implementation */ }
+}
+
+interface IDBConnect {
+    string ConnectionString { get; set; }
+    void OpenConnection();
+    void CloseConnection();
+}
+
+class DBConnect : IDBConnect {
+    public string ConnectionString { get; set; }
+    
+    public void OpenConnection() {
+        // Implementation
+    }
+
+    public void CloseConnection() {
+        // Implementation
+    }
+}
 
 
 IDBConnect <|-- DBConnect
@@ -123,11 +173,19 @@ class DBConnect {
 }
 
 interface IDataManager {
-
+	ImportData
+	ExportData
+	定义连接字符串和数据库连接相关方法。
 }
 
-class DataManager {
+class DataManager : IDataManager {
 	+ void ImportData()
 	+ void ExportData()
 }
+
+============================
+class ShortcutBroker
+
+
+
 @enduml

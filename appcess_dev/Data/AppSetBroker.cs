@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace appcess_dev.Models
+namespace appcess_dev.Data
 {
-    internal class App
+    internal class AppSetBroker
     {
     }
 }

@@ -102,9 +102,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\App.cs" />
+    <Compile Include="Data\AppBroker.cs" />
+    <Compile Include="Data\AppSetBroker.cs" />
+    <Compile Include="Data\BaseBroker.cs" />
+    <Compile Include="Data\SettingsBroker.cs" />
+    <Compile Include="Data\ShortcutBroker.cs" />
+    <Compile Include="Models\AppEntity.cs" />
     <Compile Include="Models\AppSet.cs" />
-    <Compile Include="Services\DatabaseService.cs" />
+    <Compile Include="Models\AppSetApp.cs" />
+    <Compile Include="Models\FileEntity.cs" />
+    <Compile Include="Models\RecentApp.cs" />
+    <Compile Include="Models\RecentFile.cs" />
+    <Compile Include="Models\SystemResources.cs" />
+    <Compile Include="Services\BaseSettings.cs" />
+    <Compile Include="Data\DatabaseService.cs" />
+    <Compile Include="Services\GeneralSettings.cs" />
+    <Compile Include="Services\HotkeySettings.cs" />
+    <Compile Include="Services\ImportExportSettings.cs" />
+    <Compile Include="Services\InterfaceSettings.cs" />
+    <Compile Include="Services\UpdateSettings.cs" />
     <Compile Include="ViewModels\AppSetPropertyViewModel.cs" />
     <Compile Include="ViewModels\AppSetViewModel.cs" />
     <Compile Include="ViewModels\HomeAddToViewModel.cs" />
@@ -256,7 +272,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="build\" />
-    <Folder Include="Data\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

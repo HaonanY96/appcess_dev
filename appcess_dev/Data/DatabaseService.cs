@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using appcess_dev.Models;
 using System.Data.SQLite;
 using System.IO;
+using System.Windows;
+using System.Data;
 
-namespace appcess_dev.Services
+namespace appcess_dev.Data
 {
     public class DatabaseService
     {
@@ -26,8 +27,6 @@ namespace appcess_dev.Services
             }
 
             _databasePath = Path.Combine(dataDirectory, "appsets.db3");
-            InitializeDatabase();
-
         }
 
         private void InitializeDatabase()
@@ -35,17 +34,59 @@ namespace appcess_dev.Services
             if (!File.Exists(_databasePath))
             {
                 SQLiteConnection.CreateFile(_databasePath);
-                _connection = new SQLiteConnection($"Data Source={_databasePath};Version=3;");
             }
         }
 
-        private async Task InitializeAsync()
+        public SQLiteConnection GetConnection()
         {
-            try
+            if (_connection == null)
             {
                 InitializeDatabase();
+                _connection = new SQLiteConnection($"Data Source={_databasePath};Version=3;");
+            }
 
-                await _connection.OpenAsync();
+            if (_connection.State == ConnectionState.Closed)
+            {
+                _connection.Open();
+            }
+
+            return _connection;
+        }
+
+        public void ExecuteNonQuery(string sql, SQLiteParameter[] parameters = null)
+        {
+            using (var connection = GetConnection())
+            {
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    if (parameters != null)
+                    {
+                        command.Parameters.AddRange(parameters);
+                    }
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public SQLiteDataReader ExecuteQuery(string sql, SQLiteParameter[] parameters = null)
+        {
+            var connection = GetConnection();
+            using (var command = new SQLiteCommand(sql, connection))
+            {
+                if (parameters != null)
+                {
+                    command.Parameters.AddRange(parameters);
+                }
+                return command.ExecuteReader(CommandBehavior.CloseConnection);
+            }
+        }
+
+        private async Task InitializeTablesAsync()
+        {
+            SQLiteConnection connection = null;
+            try
+            {
+                var connection = GetConnection();
 
                 string sqlApp = "CREATE TABLE IF NOT EXISTS ac_app (" +
                     "app_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -91,12 +132,12 @@ namespace appcess_dev.Services
                     "FOREIGN KEY (appset_id) REFERENCES ac_appset(appset_id) ON DELETE CASCADE, " +
                     "FOREIGN KEY (app_id) REFERENCES ac_app(app_id) ON DELETE CASCADE)";
 
-                SQLiteCommand createTableApp = new SQLiteCommand(sqlApp, _connection);
-                SQLiteCommand createTableFile = new SQLiteCommand(sqlFile, _connection);
-                SQLiteCommand createTableRecentFile = new SQLiteCommand(sqlRecentFile, _connection);
-                SQLiteCommand createTableRecentApp = new SQLiteCommand(sqlRecentApp, _connection);
-                SQLiteCommand createTableAppSet = new SQLiteCommand(sqlAppSet, _connection);
-                SQLiteCommand createTableAppSetApp = new SQLiteCommand(sqlAppSetApp, _connection);
+                SQLiteCommand createTableApp = new SQLiteCommand(sqlApp, connection);
+                SQLiteCommand createTableFile = new SQLiteCommand(sqlFile, connection);
+                SQLiteCommand createTableRecentFile = new SQLiteCommand(sqlRecentFile, connection);
+                SQLiteCommand createTableRecentApp = new SQLiteCommand(sqlRecentApp, connection);
+                SQLiteCommand createTableAppSet = new SQLiteCommand(sqlAppSet, connection);
+                SQLiteCommand createTableAppSetApp = new SQLiteCommand(sqlAppSetApp, connection);
                 
 
                 await createTableApp.ExecuteNonQueryAsync();
@@ -109,13 +150,13 @@ namespace appcess_dev.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error initializing database: " + ex.Message);
+                MessageBox.Show("Error initializing database: " + ex.Message, "Database Initialization Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 throw;
             }
             finally
             {
-                if (_connection != null && _connection.State == System.Data.ConnectionState.Open)
-                    _connection.Close();
+                if (connection != null && connection.State == ConnectionState.Open)
+                    connection.Close();
             }
         }
 
@@ -128,6 +169,7 @@ namespace appcess_dev.Services
         //create recent file
         //create Apps(List<App> apps)
         //create Files(List<File> files)
+
 
         //Read
         //get all apps
