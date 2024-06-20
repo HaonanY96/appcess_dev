@@ -1,10 +1,10 @@
 ﻿@startuml
-class App {
+class AppEntity {
 	+ Integer AppId
 	+ String AppName
 	+ String AppPath
 	+ Byte[] IconData
-	+ EntityType Type
+	+ EntityTypeEnum ItemType
 	+ float CpuUsage
 	+ Integer MemoryUsage
 	+ Integer ThreadCount
@@ -12,32 +12,33 @@ class App {
 	+ Integer RunCount
 }
 
-public enum Type
+public enum EntityType
 {
     App,
     File
 }
 
-class File {
+class FileEntity {
 	+ Integer FileId
 	+ String FileName
 	+ String FilePath
-	+ Byte[] Thumbnail
+	+ Byte[] ThumbnailData
+	+ EntityTypeEnum ItemType
 	+ Integer FileOpenCount
-	+ App AssociatedApp
+	+ AppEntity AssociatedApp
 }
 
 class RecentApp
 {
-	+ Integer RecentAppId
-	+ App AppInfo
+	+ Integer AppId
+	+ AppEntity AppInfo
 	+ DateTime LastUsedTime
 }
 
 class RecentFile
 {
-	+ Integer RecentFileId
-	+ File FileInfo
+	+ Integer FileId
+	+ FileEntity FileInfo
 	+ DateTime LastOpenedTime
 }
 
@@ -65,13 +66,23 @@ class AppSetApp {
 	+ Integer AppSetId
 	+ Integer AppId
 	+ Integer LaunchOrder
-	+ App App
+	+ AppEntity App
+}
+
+public class AppSetFile
+{
+    int FileId
+    string FileName
+    string FilePath
+    byte[] ThumbnailData
+    int FileOpenCount
+    AppEntity AssociatedApp
 }
 
 class SystemResources {
 	+ Float CpuAvailable
 	+ Integer MemoryAvailable
-	+ Integer DiskAvailable
+	+ Integer StorageAvailable
 	+ Integer ThreadAvailable
 }
 

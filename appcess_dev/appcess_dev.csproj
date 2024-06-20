@@ -110,6 +110,8 @@
     <Compile Include="Models\AppEntity.cs" />
     <Compile Include="Models\AppSet.cs" />
     <Compile Include="Models\AppSetApp.cs" />
+    <Compile Include="Models\AppSetFile.cs" />
+    <Compile Include="Models\EntityTypeEnum.cs" />
     <Compile Include="Models\FileEntity.cs" />
     <Compile Include="Models\RecentApp.cs" />
     <Compile Include="Models\RecentFile.cs" />
