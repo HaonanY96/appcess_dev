@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace appcess_dev.Data
 {
-    public class AppSetBroker : BaseBroker<AppEntity>
+    public class AppSetAppBroker : BaseBroker<AppSetApp>
     {
-        public AppSetBroker(DatabaseService databaseService) : base(databaseService)
+        public AppSetAppBroker(DatabaseService databaseService) : base(databaseService)
         {
         }
 
@@ -18,17 +18,14 @@ namespace appcess_dev.Data
             return new Dictionary<string, string>
             {
                 { "AppSetId", "appset_id" },
-                { "AppSetName", "appset_name" },
-                { "KeyCombination", "key_combination" },
-                { "AppCount", "app_count" },
-                { "FileCount", "file_count" },
-                { "LaunchCount", "launch_count" }
+                { "AppId", "app_id" },
+                { "LaunchOrder", "launch_order" }
             };
         }
 
         protected override string GetTableName()
         {
-            return "ac_appset";
+            return "ac_appset_app";
         }
     }
 }

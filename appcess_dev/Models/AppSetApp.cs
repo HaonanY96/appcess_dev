@@ -8,8 +8,9 @@ namespace appcess_dev.Models
 {
     public class AppSetApp
     {
-        public int AppSetId { get; set; }
-        public int AppId { get; set; }
+        public int? AppSetId { get; set; }
+        public AppEntity AppInfo { get; set; }
+        public int AppId => AppInfo?.AppId ?? 0;
         public int LaunchOrder { get; set; }
 
         public AppSetApp()
@@ -17,10 +18,9 @@ namespace appcess_dev.Models
             LaunchOrder = 0;
         }
 
-        public AppSetApp(int appSetId, int appId, int launchOrder)
+        public AppSetApp(AppEntity appInfo, int launchOrder)
         {
-            AppSetId = appSetId;
-            AppId = appId;
+            AppInfo = appInfo ?? throw new ArgumentNullException(nameof(appInfo), "App information cannot be null");
             LaunchOrder = launchOrder;
         }
     }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace appcess_dev.Services
+namespace appcess_dev.Services.EntityDetection
 {
-    internal class ImportExportSettings
+    internal class IAppTypeDetector
     {
     }
 }

@@ -9,8 +9,9 @@ namespace appcess_dev.Models
 {
     public class AppSetFile
     {
-        public int AppSetId { get; set; }
-        public int FileId { get; set; }
+        public int? AppSetId { get; set; }
+        public FileEntity FileInfo { get; set; }
+        public int FileId => FileInfo?.FileId ?? 0;
         public int LaunchOrder { get; set; }
 
         public AppSetFile() 
@@ -18,10 +19,9 @@ namespace appcess_dev.Models
             LaunchOrder = 0;
         }
 
-        public AppSetFile(int appSetId, int fileId, int launchOrder)
+        public AppSetFile(FileEntity fileInfo, int launchOrder)
         {
-            AppSetId = appSetId;
-            FileId = fileId;
+            FileInfo = fileInfo ?? throw new ArgumentNullException(nameof(fileInfo), "File information cannot be null");
             LaunchOrder = launchOrder;
         }
     }

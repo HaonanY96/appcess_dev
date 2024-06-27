@@ -4,12 +4,12 @@ class AppEntity {
 	+ String AppName
 	+ String AppPath
 	+ Byte[] IconData
-	+ EntityTypeEnum ItemType
 	+ float CpuUsage
 	+ Integer MemoryUsage
 	+ Integer ThreadCount
 	+ Integer DiskUsage
 	+ Integer RunCount
+	+ DateTime LastUsedTime
 }
 
 public enum EntityType
@@ -23,7 +23,6 @@ class FileEntity {
 	+ String FileName
 	+ String FilePath
 	+ Byte[] ThumbnailData
-	+ EntityTypeEnum ItemType
 	+ Integer FileOpenCount
 	+ AppEntity AssociatedApp
 }

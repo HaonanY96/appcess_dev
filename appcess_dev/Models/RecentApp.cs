@@ -8,25 +8,19 @@ namespace appcess_dev.Models
 {
     public class RecentApp
     {
-        public int AppId { get; set; }
+        public int? RecentAppId { get; set; }
         public AppEntity AppInfo { get; set; }
-        public DateTime LastOpenedTime { get; set; }
+        public int AppId => AppInfo?.AppId ?? 0;
+        public DateTime LastUsedTime => AppInfo.LastUsedTime ?? DateTime.MinValue;
 
         public RecentApp()
         {
-            LastOpenedTime = DateTime.Now;
+            AppInfo = new AppEntity();
         }
 
-        public RecentApp(int appId, AppEntity appInfo, DateTime lastOpened)
+        public RecentApp(AppEntity appInfo)
         {
-            if (appInfo == null)
-            {
-                throw new ArgumentNullException(nameof(appInfo), "App information cannot be null");
-            }
-
-            AppId = appId;
-            AppInfo = appInfo;
-            LastOpenedTime = lastOpened;
+            AppInfo = appInfo ?? throw new ArgumentNullException(nameof(appInfo), "App information cannot be null");
         }
     }
 }

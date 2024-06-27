@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.Reflection;
+using appcess_dev.Models;
 
 namespace appcess_dev.Data
 {
-    public class AppBroker : BaseBroker<App>
+    public class AppBroker : BaseBroker<AppEntity>
     {
         public AppBroker(DatabaseService databaseService) : base(databaseService)
         {
@@ -22,12 +23,12 @@ namespace appcess_dev.Data
                 { "AppName", "app_name" },
                 { "AppPath", "app_path" },
                 { "IconData", "icon_data" },
-                { "Type", "type" },
                 { "CpuUsage", "cpu_usage" },
                 { "MemoryUsage", "memory_usage" },
                 { "DiskUsage", "disk_usage" },
                 { "ThreadCount", "thread_count" },
-                { "RunCount", "run_count" }
+                { "RunCount", "run_count" },
+                { "LastUsedTime", "last_used_time" }
             };
         }
 

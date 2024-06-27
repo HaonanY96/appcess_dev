@@ -8,25 +8,19 @@ namespace appcess_dev.Models
 {
     public class RecentFile
     {
-        public int FileId { get; set; }
+        public int? RecentFileId { get; set; }
         public FileEntity FileInfo { get; set; }
-        public DateTime LastOpenedTime { get; set; }
+        public int FileId => FileInfo?.FileId ?? 0;
+        public DateTime LastOpenedTime => FileInfo.LastOpenedTime ?? DateTime.MinValue;
 
         public RecentFile()
         {
-            LastOpenedTime = DateTime.Now;
+            FileInfo = new FileEntity();
         }
 
-        public RecentFile(int fileId, FileEntity fileInfo, DateTime lastOpened)
+        public RecentFile(FileEntity fileInfo)
         {
-            if (fileInfo == null)
-            {
-                throw new ArgumentNullException(nameof(fileInfo), "File information cannot be null");
-            }
-
-            FileId = fileId;
-            FileInfo = fileInfo;
-            LastOpenedTime = lastOpened;
+            FileInfo = fileInfo ?? throw new ArgumentNullException(nameof(fileInfo), "File information cannot be null");
         }
     }
 }

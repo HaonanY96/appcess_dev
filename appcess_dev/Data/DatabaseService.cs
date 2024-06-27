@@ -83,7 +83,6 @@ namespace appcess_dev.Data
 
         private async Task InitializeTablesAsync()
         {
-            SQLiteConnection connection = null;
             try
             {
                 var connection = GetConnection();
@@ -93,12 +92,12 @@ namespace appcess_dev.Data
                     "app_name TEXT NOT NULL, " +
                     "app_path TEXT NOT NULL, " +
                     "icon_data BLOB, " +
-                    "type TEXT NOT NULL, " +
                     "cpu_usage REAL, " +
                     "memory_usage INTEGER, " +
                     "disk_usage INTEGER, " +
                     "thread_count INTEGER, " +
-                    "run_count INTEGER DEFAULT 0)";
+                    "run_count INTEGER DEFAULT 0), " +
+                    "last_used_time DATETIME, ";
                 string sqlFile = "CREATE TABLE IF NOT EXISTS ac_file (" +
                     "file_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "file_name TEXT NOT NULL, " +
@@ -106,6 +105,7 @@ namespace appcess_dev.Data
                     "app_id INTEGER, " +
                     "thumbnail BLOB, " +
                     "file_open_count INTEGER DEFAULT 0, " +
+                    "last_opened_time DATETIME, " +
                     "FOREIGN KEY (app_id) REFERENCES ac_app(app_id) ON DELETE CASCADE)";
                 string sqlRecentFile = "CREATE TABLE IF NOT EXISTS ac_recent_file (" +
                     "recent_file_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -132,32 +132,43 @@ namespace appcess_dev.Data
                     "FOREIGN KEY (appset_id) REFERENCES ac_appset(appset_id) ON DELETE CASCADE, " +
                     "FOREIGN KEY (app_id) REFERENCES ac_app(app_id) ON DELETE CASCADE)";
 
-                SQLiteCommand createTableApp = new SQLiteCommand(sqlApp, connection);
-                SQLiteCommand createTableFile = new SQLiteCommand(sqlFile, connection);
-                SQLiteCommand createTableRecentFile = new SQLiteCommand(sqlRecentFile, connection);
-                SQLiteCommand createTableRecentApp = new SQLiteCommand(sqlRecentApp, connection);
-                SQLiteCommand createTableAppSet = new SQLiteCommand(sqlAppSet, connection);
-                SQLiteCommand createTableAppSetApp = new SQLiteCommand(sqlAppSetApp, connection);
-                
+                using (var createTableApp = new SQLiteCommand(sqlApp, connection))
+                using (var createTableFile = new SQLiteCommand(sqlFile, connection))
+                using (var createTableRecentFile = new SQLiteCommand(sqlRecentFile, connection))
+                using (var createTableRecentApp = new SQLiteCommand(sqlRecentApp, connection))
+                using (var createTableAppSet = new SQLiteCommand(sqlAppSet, connection))
+                using (var createTableAppSetApp = new SQLiteCommand(sqlAppSetApp, connection))
+                {
+                    await createTableApp.ExecuteNonQueryAsync();
+                    await createTableFile.ExecuteNonQueryAsync();
+                    await createTableRecentFile.ExecuteNonQueryAsync();
+                    await createTableRecentApp.ExecuteNonQueryAsync();
+                    await createTableAppSet.ExecuteNonQueryAsync();
+                    await createTableAppSetApp.ExecuteNonQueryAsync();
+                }
 
-                await createTableApp.ExecuteNonQueryAsync();
-                await createTableFile.ExecuteNonQueryAsync();
-                await createTableRecentFile.ExecuteNonQueryAsync();
-                await createTableRecentApp.ExecuteNonQueryAsync();
-                await createTableAppSet.ExecuteNonQueryAsync();
-                await createTableAppSetApp.ExecuteNonQueryAsync();
+                string[] indexCommands = new string[]
+                {
+                    "CREATE INDEX IF NOT EXISTS idx_file_id ON ac_file(file_id)",
+                    "CREATE INDEX IF NOT EXISTS idx_app_id ON ac_app(app_id)",
+                    "CREATE INDEX IF NOT EXISTS idx_appset_id ON ac_appset(appset_id)",
+                    "CREATE INDEX IF NOT EXISTS idx_last_opened_time ON ac_recent_file(last_opened_time)",
+                    "CREATE INDEX IF NOT EXISTS idx_last_used_time ON ac_recent_app(last_used_time)"
+                };
 
+                foreach (var indexCommand in indexCommands)
+                {
+                    using (var command = new SQLiteCommand(indexCommand, connection))
+                    {
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error initializing database: " + ex.Message, "Database Initialization Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 throw;
-            }
-            finally
-            {
-                if (connection != null && connection.State == ConnectionState.Open)
-                    connection.Close();
-            }
+            }         
         }
 
         // CRUD
@@ -185,6 +196,8 @@ namespace appcess_dev.Data
         //count recent files
         //get app by id
         //get file by id
+        //get app in an appset by id
+        //get file in an appset by id
         //get appset by id
         //get recent app by id
         //get recent file by id

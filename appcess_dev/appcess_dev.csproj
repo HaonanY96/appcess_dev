@@ -103,10 +103,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\AppBroker.cs" />
+    <Compile Include="Data\AppSetAppBroker.cs" />
     <Compile Include="Data\AppSetBroker.cs" />
+    <Compile Include="Data\AppSetFileBroker.cs" />
     <Compile Include="Data\BaseBroker.cs" />
+    <Compile Include="Data\FileBroker.cs" />
+    <Compile Include="Data\RecentAppBroker.cs" />
+    <Compile Include="Data\RecentFileBroker.cs" />
     <Compile Include="Data\SettingsBroker.cs" />
     <Compile Include="Data\ShortcutBroker.cs" />
+    <Compile Include="Data\SystemResourcesBroker.cs" />
     <Compile Include="Models\AppEntity.cs" />
     <Compile Include="Models\AppSet.cs" />
     <Compile Include="Models\AppSetApp.cs" />
@@ -116,13 +122,18 @@
     <Compile Include="Models\RecentApp.cs" />
     <Compile Include="Models\RecentFile.cs" />
     <Compile Include="Models\SystemResources.cs" />
-    <Compile Include="Services\BaseSettings.cs" />
+    <Compile Include="Services\EntityDetection\EntityFactory.cs" />
+    <Compile Include="Services\EntityDetection\IAppTypeDetector.cs" />
+    <Compile Include="Services\EntityDetection\IFileTypeDetector.cs" />
+    <Compile Include="Services\EntityDetection\WindowsAppTypeDetector.cs" />
+    <Compile Include="Services\EntityDetection\WindowsFileTypeDetector.cs" />
+    <Compile Include="Services\Settings\BaseSettings.cs" />
     <Compile Include="Data\DatabaseService.cs" />
-    <Compile Include="Services\GeneralSettings.cs" />
-    <Compile Include="Services\HotkeySettings.cs" />
-    <Compile Include="Services\ImportExportSettings.cs" />
-    <Compile Include="Services\InterfaceSettings.cs" />
-    <Compile Include="Services\UpdateSettings.cs" />
+    <Compile Include="Services\Settings\GeneralSettings.cs" />
+    <Compile Include="Services\Settings\HotkeySettings.cs" />
+    <Compile Include="Services\Settings\ImportExportSettings.cs" />
+    <Compile Include="Services\Settings\InterfaceSettings.cs" />
+    <Compile Include="Services\Settings\UpdateSettings.cs" />
     <Compile Include="ViewModels\AppSetPropertyViewModel.cs" />
     <Compile Include="ViewModels\AppSetViewModel.cs" />
     <Compile Include="ViewModels\HomeAddToViewModel.cs" />
