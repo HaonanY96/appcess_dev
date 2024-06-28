@@ -7,19 +7,20 @@ using System.Threading.Tasks;
 
 namespace appcess_dev.Models
 {
-    public class AppEntity
+    public class AppEntity : IEntity
     {
         public int? AppId { get; set; }
-        public string AppName { get; set; }
-        public string AppPath { get; set; }
+        public string Name { get; set; }
+        public string Path { get; set; }
+
         public byte[] IconData { get; set; }
 
         public float CpuUsage { get; set; }
         public int MemoryUsage { get; set; }
         public int ThreadCount { get; set; }
-        public int DiskUsage { get; set; }
         public int RunCount { get; set; }
-        public DateTime? LastUsedTime { get; set; }
+        public DateTime? LastAccessTime { get; set; }
+
 
         public AppEntity() 
         {
@@ -27,24 +28,28 @@ namespace appcess_dev.Models
             CpuUsage = 0;
             MemoryUsage = 0;
             ThreadCount = 0;
-            DiskUsage = 0;
             RunCount = 0;
-            LastUsedTime = null;
+            LastAccessTime = null;
+
         }
 
-        public AppEntity(string appName, string appPath, byte[] iconData, float cpuUsage,
-                         int memoryUsage, int threadCount, int diskUsage, 
-                         int runCount, DateTime? lastUsedTime = null)
+        public AppEntity(string name, 
+                         string path, 
+                         byte[] iconData, 
+                         float cpuUsage,
+                         int memoryUsage, 
+                         int threadCount,  
+                         int runCount, 
+                         DateTime? lastAccessTime = null)
         {
-            AppName = appName;
-            AppPath = appPath;
+            Name = name;
+            Path = path;
             IconData = iconData;
             CpuUsage = cpuUsage;
             MemoryUsage = memoryUsage;
             ThreadCount = threadCount;
-            DiskUsage = diskUsage;
             RunCount = runCount;
-            LastUsedTime = lastUsedTime;
+            LastAccessTime = lastAccessTime ?? DateTime.Now;
         }
     }
 }

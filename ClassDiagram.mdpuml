@@ -7,9 +7,8 @@ class AppEntity {
 	+ float CpuUsage
 	+ Integer MemoryUsage
 	+ Integer ThreadCount
-	+ Integer DiskUsage
 	+ Integer RunCount
-	+ DateTime LastUsedTime
+	+ DateTime LastAccessTime
 }
 
 public enum EntityType
@@ -25,20 +24,21 @@ class FileEntity {
 	+ Byte[] ThumbnailData
 	+ Integer FileOpenCount
 	+ AppEntity AssociatedApp
+	+ DateTime LastAccessTime
 }
 
 class RecentApp
 {
 	+ Integer AppId
 	+ AppEntity AppInfo
-	+ DateTime LastUsedTime
+	+ DateTime LastAccessTime
 }
 
 class RecentFile
 {
 	+ Integer FileId
 	+ FileEntity FileInfo
-	+ DateTime LastOpenedTime
+	+ DateTime LastAccessTime
 }
 
 class AppBroker

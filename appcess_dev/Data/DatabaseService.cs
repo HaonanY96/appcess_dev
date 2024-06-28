@@ -89,33 +89,32 @@ namespace appcess_dev.Data
 
                 string sqlApp = "CREATE TABLE IF NOT EXISTS ac_app (" +
                     "app_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "app_name TEXT NOT NULL, " +
-                    "app_path TEXT NOT NULL, " +
+                    "name TEXT NOT NULL, " +
+                    "path TEXT NOT NULL, " +
                     "icon_data BLOB, " +
                     "cpu_usage REAL, " +
                     "memory_usage INTEGER, " +
-                    "disk_usage INTEGER, " +
                     "thread_count INTEGER, " +
                     "run_count INTEGER DEFAULT 0), " +
-                    "last_used_time DATETIME, ";
+                    "last_access_time DATETIME, ";
                 string sqlFile = "CREATE TABLE IF NOT EXISTS ac_file (" +
                     "file_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "file_name TEXT NOT NULL, " +
-                    "file_path TEXT NOT NULL, " +
+                    "name TEXT NOT NULL, " +
+                    "path TEXT NOT NULL, " +
                     "app_id INTEGER, " +
                     "thumbnail BLOB, " +
                     "file_open_count INTEGER DEFAULT 0, " +
-                    "last_opened_time DATETIME, " +
+                    "last_access_time DATETIME, " +
                     "FOREIGN KEY (app_id) REFERENCES ac_app(app_id) ON DELETE CASCADE)";
                 string sqlRecentFile = "CREATE TABLE IF NOT EXISTS ac_recent_file (" +
                     "recent_file_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "file_id INTEGER, " +
-                    "last_opened_time DATETIME, " +
+                    "last_access_time DATETIME, " +
                     "FOREIGN KEY (file_id) REFERENCES ac_file (file_id))";
                 string sqlRecentApp = "CREATE TABLE IF NOT EXISTS ac_recent_app (" +
                     "recent_app_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "app_id INTEGER, " +
-                    "last_used_time DATETIME, " +
+                    "last_access_time DATETIME, " +
                     "FOREIGN KEY (app_id) REFERENCES ac_app (app_id)";
                 string sqlAppSet = "CREATE TABLE IF NOT EXISTS ac_appset (" +
                     "appset_id INTEGER PRIMARY KEY AUTOINCREMENT, " +

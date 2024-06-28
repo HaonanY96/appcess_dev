@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace appcess_dev.Services.EntityDetection
 {
-    internal class IAppTypeDetector
+    public interface IAppTypeDetector
     {
+        bool IsApplication(string path);
+        string GetAppType(string path);
     }
 }

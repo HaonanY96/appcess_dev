@@ -112,13 +112,14 @@
     <Compile Include="Data\RecentFileBroker.cs" />
     <Compile Include="Data\SettingsBroker.cs" />
     <Compile Include="Data\ShortcutBroker.cs" />
-    <Compile Include="Data\SystemResourcesBroker.cs" />
+    <Compile Include="Data\Disabled-SystemResourcesBroker.cs" />
     <Compile Include="Models\AppEntity.cs" />
     <Compile Include="Models\AppSet.cs" />
     <Compile Include="Models\AppSetApp.cs" />
     <Compile Include="Models\AppSetFile.cs" />
-    <Compile Include="Models\EntityTypeEnum.cs" />
+    <Compile Include="Models\Disabled-EntityTypeEnum.cs" />
     <Compile Include="Models\FileEntity.cs" />
+    <Compile Include="Models\IEntity.cs" />
     <Compile Include="Models\RecentApp.cs" />
     <Compile Include="Models\RecentFile.cs" />
     <Compile Include="Models\SystemResources.cs" />
@@ -134,6 +135,9 @@
     <Compile Include="Services\Settings\ImportExportSettings.cs" />
     <Compile Include="Services\Settings\InterfaceSettings.cs" />
     <Compile Include="Services\Settings\UpdateSettings.cs" />
+    <Compile Include="Services\Utilities\FileSystemUtilities.cs" />
+    <Compile Include="Services\Utilities\ProcessUtilities.cs" />
+    <Compile Include="Services\Utilities\RegistryUtilities.cs" />
     <Compile Include="ViewModels\AppSetPropertyViewModel.cs" />
     <Compile Include="ViewModels\AppSetViewModel.cs" />
     <Compile Include="ViewModels\HomeAddToViewModel.cs" />

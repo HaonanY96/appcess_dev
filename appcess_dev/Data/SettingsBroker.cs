@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace appcess_dev.Data
 {
-    internal class SettingsBroker
+    public class SettingsBroker
     {
+
     }
 }

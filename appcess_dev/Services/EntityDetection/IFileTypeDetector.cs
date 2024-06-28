@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace appcess_dev.Services.EntityDetection
 {
-    internal class IFileTypeDetector
+    public interface IFileTypeDetector
     {
+        bool IsFile(string path);
+        string GetFileType(string path);
     }
 }

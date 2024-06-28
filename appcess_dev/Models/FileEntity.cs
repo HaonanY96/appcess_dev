@@ -7,34 +7,40 @@ using System.Threading.Tasks;
 
 namespace appcess_dev.Models
 {
-    public class FileEntity
+    public class FileEntity : IEntity
     {
         public int? FileId { get; set; }
-        public string FileName { get; set; }
-        public string FilePath { get; set; }
+        public string Name { get; set; }
+        public string Path { get; set; }
         public byte[] ThumbnailData { get; set; }
         public int FileOpenCount { get; set; }
         public AppEntity AssociatedApp { get; set; }
-        public DateTime? LastOpenedTime { get; set; }
+        public DateTime? LastAccessTime { get; set; }
+
 
         public FileEntity() 
         {
             ThumbnailData = null;
             FileOpenCount = 0;
             AssociatedApp = null;
-            LastOpenedTime = null;
+            LastAccessTime = null;
+
         }
 
-        public FileEntity(string fileName, string filePath, byte[] thumbnailData, 
-                          int fileOpenCount, AppEntity associatedApp,
-                          DateTime? lastOpenedTime = null)
+        public FileEntity(string name, 
+                          string path, 
+                          byte[] thumbnailData, 
+                          int fileOpenCount,
+                          AppEntity associatedApp = null, 
+                          DateTime? lastAccessTime = null)
+
         {
-            FileName = fileName;
-            FilePath = filePath;
+            Name = name;
+            Path = path;
             ThumbnailData = thumbnailData;
             FileOpenCount = fileOpenCount;
             AssociatedApp = associatedApp;
-            LastOpenedTime = lastOpenedTime;
+            LastAccessTime = lastAccessTime ?? DateTime.Now;
         }
 
     }
