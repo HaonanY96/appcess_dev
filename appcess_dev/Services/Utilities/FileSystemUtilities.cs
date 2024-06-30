@@ -6,12 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
+using appcess_dev.Services.Interfaces;
+using NLog;
 
 namespace appcess_dev.Services.Utilities
 {
-    public static class FileSystemUtilities
+    public class FileSystemUtilities
     {
-        public static async Task<byte[]> GetThumbnailAsync(string filePath, int width, int height)
+        private readonly IErrorHandler _errorHandler;
+        private readonly ILogger _logger;
+        public FileSystemUtilities(IErrorHandler errorHandler, ILogger logger)
+        {
+            _errorHandler = errorHandler ?? throw new ArgumentNullException(nameof(errorHandler));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        public async Task<byte[]> GetThumbnailAsync(string filePath, int width, int height)
         {
             try
             {
@@ -20,27 +30,54 @@ namespace appcess_dev.Services.Utilities
                 using (var memoryStream = new MemoryStream())
                 {
                     await Task.Run(() => thumbnail.Save(memoryStream, ImageFormat.Png));
+                    LogService.LogInfo($"Successfully created thumbnail for {filePath}.");
                     return memoryStream.ToArray();
                 }
             }
-            catch (OutOfMemoryException)
+            catch (OutOfMemoryException ex)
             {
-                Console.WriteLine($"The file at {filePath} is not a valid image or is not supported.");
+                string errorMessage = $"The file at {filePath} is not a valid image or is not supported.";
+                LogService.LogError(ex, errorMessage);
+                _errorHandler.ShowErrorMessage(errorMessage);
                 return null;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while processing the file at {filePath}: {ex.Message}");
+                string errorMessage = $"An error occurred while processing the file at {filePath}.";
+                LogService.LogError(ex, errorMessage);
+                _errorHandler.ShowErrorMessage(errorMessage);
                 return null;
             }
         }
-        public static DateTime GetFileLastAccessTime(string filePath) 
+        public DateTime GetFileLastAccessTime(string filePath)
         {
-            if (File.Exists(filePath))
+            if (string.IsNullOrEmpty(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
+
+            if (!File.Exists(filePath))
+            {
+                var errorMessage = $"The file at {filePath} does not exist.";
+                _logger.LogError(errorMessage);
+                _errorHandler.ShowErrorMessage(errorMessage);
+                throw new FileNotFoundException(errorMessage, filePath);
+            }
+
+            try
             {
                 return File.GetLastAccessTime(filePath);
             }
-            throw new FileNotFoundException($"The file at {filePath} does not exist.");
+            catch (Exception ex)
+            {
+                if (!(ex is FileNotFoundException))
+                {
+                    var errorMessage = $"An error occurred while accessing the file: {filePath}";
+                    _logger.LogError(ex, errorMessage);
+                    _errorHandler.ShowErrorMessage($"{errorMessage}: {ex.Message}");
+                }
+                throw;
+            }
         }
     }
 }
