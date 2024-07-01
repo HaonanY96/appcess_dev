@@ -4,18 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
-using appcess_dev.Services.Interfaces;
 
 namespace appcess_dev.Services
 {
-    public class LogService : ILogger
+    public class LogService
     {
-        private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
+        private readonly ILogger _logger;
 
-        public static void LogDebug(string message) => logger.Debug(message);
-        public static void LogInfo(string message) => logger.Info(message);
-        public static void LogWarn(string message) => logger.Warn(message);
-        public static void LogError(string message) => logger.Error(message);
-        public static void LogError(Exception ex, string message) => logger.Error(ex, message);
+        public LogService()
+        {
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+
+        public void LogDebug(string message) => _logger.Debug(message);
+        public void LogInfo(string message) => _logger.Info(message);
+        public void LogWarn(string message) => _logger.Warn(message);
+        public void LogError(string message) => _logger.Error(message);
+        public void LogError(Exception ex, string message) => _logger.Error(ex, message);
     }
 }

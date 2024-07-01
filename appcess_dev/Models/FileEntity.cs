@@ -12,35 +12,38 @@ namespace appcess_dev.Models
         public int? FileId { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
+        public int AppId { get; set; }
         public byte[] ThumbnailData { get; set; }
         public int FileOpenCount { get; set; }
-        public AppEntity AssociatedApp { get; set; }
         public DateTime? LastAccessTime { get; set; }
+        public AppEntity AssociatedApp { get; set; }
 
 
         public FileEntity() 
         {
             ThumbnailData = null;
             FileOpenCount = 0;
-            AssociatedApp = null;
             LastAccessTime = null;
+            AssociatedApp = null;
 
         }
 
         public FileEntity(string name, 
                           string path, 
+                          int appId,
                           byte[] thumbnailData, 
                           int fileOpenCount,
-                          AppEntity associatedApp = null, 
-                          DateTime? lastAccessTime = null)
+                          DateTime? lastAccessTime = null,
+                          AppEntity associatedApp = null)
 
         {
             Name = name;
             Path = path;
+            AppId = appId;
             ThumbnailData = thumbnailData;
             FileOpenCount = fileOpenCount;
-            AssociatedApp = associatedApp;
             LastAccessTime = lastAccessTime ?? DateTime.Now;
+            AssociatedApp = associatedApp;
         }
 
     }

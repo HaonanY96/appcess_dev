@@ -151,7 +151,7 @@
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\Implementations\WpfErrorHandler.cs" />
     <Compile Include="Services\Interfaces\IErrorHandler.cs" />
-    <Compile Include="Services\Interfaces\ILogger.cs" />
+    <Compile Include="Services\Interfaces\Disabled-IAppLogger.cs" />
     <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\Settings\BaseSettings.cs" />
     <Compile Include="Data\DatabaseService.cs" />

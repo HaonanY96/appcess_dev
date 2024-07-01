@@ -1,8 +1,8 @@
 ﻿@startuml
 class AppEntity {
 	+ Integer AppId
-	+ String AppName
-	+ String AppPath
+	+ String Name
+	+ String Path
 	+ Byte[] IconData
 	+ float CpuUsage
 	+ Integer MemoryUsage
@@ -19,12 +19,14 @@ public enum EntityType
 
 class FileEntity {
 	+ Integer FileId
-	+ String FileName
-	+ String FilePath
+	+ String Name
+	+ String Path
+	+ Int AppId
 	+ Byte[] ThumbnailData
 	+ Integer FileOpenCount
-	+ AppEntity AssociatedApp
 	+ DateTime LastAccessTime
+	+ AppEntity AssociatedApp
+
 }
 
 class RecentApp
@@ -73,7 +75,7 @@ public class AppSetFile
     int FileId
     string FileName
     string FilePath
-    byte[] ThumbnailData
+    byte[] Thumbnail
     int FileOpenCount
     AppEntity AssociatedApp
 }

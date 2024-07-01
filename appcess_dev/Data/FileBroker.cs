@@ -20,11 +20,12 @@ namespace appcess_dev.Data
             return new Dictionary<string, string>
             {
                 { "FileId", "file_id" },
-                { "FileName", "file_name" },
-                { "FilePath", "file_path" },
-                { "ThumbnailData", "thumbnail" },
+                { "Name", "file_name" },
+                { "Path", "file_path" },
+                { "AppId", "app_id" },
+                { "ThumbnailData", "thumbnail_data" },
                 { "FileOpenCount", "file_open_count" },
-                { "LastOpenedTime", "last_opened_time" }
+                { "LastAccessTime", "last_access_time" }
             };
         }
 
@@ -32,5 +33,10 @@ namespace appcess_dev.Data
         {
             return "ac_file";
         }
+
+        //GetFilesByAppId
+        //IncrementFileOpenCount
+        //UpdateFileApp
+        //GetFileWithApp (optional)
     }
 }

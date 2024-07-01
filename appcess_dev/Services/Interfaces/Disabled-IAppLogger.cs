@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace appcess_dev.Services.Interfaces
 {
-    public interface ILogger
+    public interface IAppLogger
     {
         void LogDebug(string message);
         void LogInfo(string message);

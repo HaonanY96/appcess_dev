@@ -11,7 +11,7 @@ namespace appcess_dev.Models
         public int? RecentAppId { get; set; }
         public AppEntity AppInfo { get; set; }
         public int AppId => AppInfo?.AppId ?? 0;
-        public DateTime LastUsedTime => AppInfo.LastUsedTime ?? DateTime.MinValue;
+        public DateTime LastAccessTime => AppInfo.LastAccessTime ?? DateTime.MinValue;
 
         public RecentApp()
         {

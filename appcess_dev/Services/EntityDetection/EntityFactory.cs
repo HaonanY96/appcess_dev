@@ -28,7 +28,7 @@ namespace appcess_dev.Services.EntityDetection
                 {
                     Path = path,
                     Name = Path.GetFileName(path),
-                    ThumbnailData =
+                    Thumbnail =
                     FileOpenCount =
                     AssociatedApp =
                     LastAccessTime = File.GetLastAccessTime(path),

@@ -27,5 +27,10 @@ namespace appcess_dev.Data
         {
             return "ac_recent_app";
         }
+
+        public List<AppEntity> GetRecentlyUsedApps(int count)
+        {
+
+        }
     }
 }

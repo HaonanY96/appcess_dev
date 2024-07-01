@@ -11,7 +11,7 @@ namespace appcess_dev.Models
         public int? RecentFileId { get; set; }
         public FileEntity FileInfo { get; set; }
         public int FileId => FileInfo?.FileId ?? 0;
-        public DateTime LastOpenedTime => FileInfo.LastOpenedTime ?? DateTime.MinValue;
+        public DateTime LastAccessTime => FileInfo.LastAccessTime ?? DateTime.MinValue;
 
         public RecentFile()
         {

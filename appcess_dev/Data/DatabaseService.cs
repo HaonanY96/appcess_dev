@@ -29,33 +29,34 @@ namespace appcess_dev.Data
             _databasePath = Path.Combine(dataDirectory, "appsets.db3");
         }
 
-        private void InitializeDatabase()
+        private async Task InitializeDatabaseAsync()
         {
             if (!File.Exists(_databasePath))
             {
                 SQLiteConnection.CreateFile(_databasePath);
+                await InitializeTablesAsync();
             }
         }
 
-        public SQLiteConnection GetConnection()
+        public async Task<SQLiteConnection> GetConnectionAsync()
         {
             if (_connection == null)
             {
-                InitializeDatabase();
+                await InitializeDatabaseAsync();
                 _connection = new SQLiteConnection($"Data Source={_databasePath};Version=3;");
             }
 
             if (_connection.State == ConnectionState.Closed)
             {
-                _connection.Open();
+                await _connection.OpenAsync();
             }
 
             return _connection;
         }
 
-        public void ExecuteNonQuery(string sql, SQLiteParameter[] parameters = null)
+        public async Task ExecuteNonQueryAsync(string sql, SQLiteParameter[] parameters = null)
         {
-            using (var connection = GetConnection())
+            using (var connection = await GetConnectionAsync())
             {
                 using (var command = new SQLiteCommand(sql, connection))
                 {
@@ -63,34 +64,32 @@ namespace appcess_dev.Data
                     {
                         command.Parameters.AddRange(parameters);
                     }
-                    command.ExecuteNonQuery();
+                    await command.ExecuteNonQueryAsync();
                 }
             }
         }
 
-        public SQLiteDataReader ExecuteQuery(string sql, SQLiteParameter[] parameters = null)
+        public async Task<SQLiteDataReader> ExecuteQueryAsync(string sql, SQLiteParameter[] parameters = null)
         {
-            var connection = GetConnection();
-            using (var command = new SQLiteCommand(sql, connection))
+            var connection = await GetConnectionAsync();
+            var command = new SQLiteCommand(sql, connection);
+            if (parameters != null)
             {
-                if (parameters != null)
-                {
-                    command.Parameters.AddRange(parameters);
-                }
-                return command.ExecuteReader(CommandBehavior.CloseConnection);
+                command.Parameters.AddRange(parameters);
             }
+            return (SQLiteDataReader)await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
         }
 
         private async Task InitializeTablesAsync()
         {
             try
             {
-                var connection = GetConnection();
+                var connection = await GetConnectionAsync();
 
                 string sqlApp = "CREATE TABLE IF NOT EXISTS ac_app (" +
                     "app_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "name TEXT NOT NULL, " +
-                    "path TEXT NOT NULL, " +
+                    "app_name TEXT NOT NULL, " +
+                    "app_path TEXT NOT NULL, " +
                     "icon_data BLOB, " +
                     "cpu_usage REAL, " +
                     "memory_usage INTEGER, " +
@@ -99,10 +98,10 @@ namespace appcess_dev.Data
                     "last_access_time DATETIME, ";
                 string sqlFile = "CREATE TABLE IF NOT EXISTS ac_file (" +
                     "file_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "name TEXT NOT NULL, " +
-                    "path TEXT NOT NULL, " +
+                    "file_name TEXT NOT NULL, " +
+                    "file_path TEXT NOT NULL, " +
                     "app_id INTEGER, " +
-                    "thumbnail BLOB, " +
+                    "thumbnail_data BLOB, " +
                     "file_open_count INTEGER DEFAULT 0, " +
                     "last_access_time DATETIME, " +
                     "FOREIGN KEY (app_id) REFERENCES ac_app(app_id) ON DELETE CASCADE)";

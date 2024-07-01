@@ -30,21 +30,21 @@ namespace appcess_dev.Services.Utilities
                 using (var memoryStream = new MemoryStream())
                 {
                     await Task.Run(() => thumbnail.Save(memoryStream, ImageFormat.Png));
-                    LogService.LogInfo($"Successfully created thumbnail for {filePath}.");
+                    _logger.Info($"Successfully created thumbnail for {filePath}.");
                     return memoryStream.ToArray();
                 }
             }
             catch (OutOfMemoryException ex)
             {
                 string errorMessage = $"The file at {filePath} is not a valid image or is not supported.";
-                LogService.LogError(ex, errorMessage);
+                _logger.Error(ex, errorMessage);
                 _errorHandler.ShowErrorMessage(errorMessage);
                 return null;
             }
             catch (Exception ex)
             {
                 string errorMessage = $"An error occurred while processing the file at {filePath}.";
-                LogService.LogError(ex, errorMessage);
+                _logger.Error(ex, errorMessage);
                 _errorHandler.ShowErrorMessage(errorMessage);
                 return null;
             }
@@ -58,8 +58,8 @@ namespace appcess_dev.Services.Utilities
 
             if (!File.Exists(filePath))
             {
-                var errorMessage = $"The file at {filePath} does not exist.";
-                _logger.LogError(errorMessage);
+                string errorMessage = $"The file at {filePath} does not exist.";
+                _logger.Error(errorMessage);
                 _errorHandler.ShowErrorMessage(errorMessage);
                 throw new FileNotFoundException(errorMessage, filePath);
             }
@@ -72,8 +72,8 @@ namespace appcess_dev.Services.Utilities
             {
                 if (!(ex is FileNotFoundException))
                 {
-                    var errorMessage = $"An error occurred while accessing the file: {filePath}";
-                    _logger.LogError(ex, errorMessage);
+                    string errorMessage = $"An error occurred while accessing the file: {filePath}";
+                    _logger.Error(ex, errorMessage);
                     _errorHandler.ShowErrorMessage($"{errorMessage}: {ex.Message}");
                 }
                 throw;
