@@ -20,8 +20,12 @@ namespace appcess_dev
     public partial class App : Application
     {
         public IServiceProvider ServiceProvider { get; private set; }
+
+        public static ConfigurationService ConfigurationService { get; private set; }
+
         protected override void OnStartup(StartupEventArgs e)
         {
+            ConfigurationService = new ConfigurationService();
             base.OnStartup(e);
 
             var serviceCollection = new ServiceCollection();
